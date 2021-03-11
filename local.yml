@@ -1,6 +1,7 @@
 - hosts: localhost
   connection: local
   become: true
+
   tasks:
-    - name: instalar java
-      yum: name=java state=latest
+  - name: instalar java
+    yum: name=java state=latest
