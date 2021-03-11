@@ -1,2 +1,3 @@
 #!/usr/bin/bash
-echo hola
+echo git pull
+git pull
