@@ -1,5 +1,3 @@
-
-
 # ansible.
 x
 x
