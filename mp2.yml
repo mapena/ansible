@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  tasks:
+    - name: instalar java
+      yum: name=java state=latest
