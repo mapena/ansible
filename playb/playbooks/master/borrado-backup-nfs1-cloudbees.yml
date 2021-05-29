@@ -1,0 +1,32 @@
+---
+- name : Borrado-backup-nfs1-cloudbees.yml
+  hosts: prdnfs
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+###### pmasti12  inte
+    - name: "{{ ansible_play_name}} : borrado archivo  /export/pmasti12/jenkins_home.tar.gz"
+      ansible.builtin.file:
+        path: /export/pmasti12/jenkins_home.tar.gz
+        state: absent
+
+###### pmasti34  inte
+    - name: "{{ ansible_play_name}} : borrado archivo  /export/pmasti34/jenkins_home.tar.gz"
+      ansible.builtin.file:
+        path: /export/pmasti34/jenkins_home.tar.gz
+        state: absent
+
+######## pmastp12  prd
+##    - name: "{{ ansible_play_name}} : borrado archivo  /export/pmastp12/jenkins_home.tar.gz"
+##      ansible.builtin.file:
+##        path: /export/pmastp12/jenkins_home.tar.gz
+##        state: absent
+##
+######## pmastp34  prd
+##    - name: "{{ ansible_play_name}} : borrado archivo  /export/pmastp34/jenkins_home.tar.gz"
+##      ansible.builtin.file:
+##        path: /export/pmastp34/jenkins_home.tar.gz
+##        state: absent
+###    - name: comando ID
+##      shell: id

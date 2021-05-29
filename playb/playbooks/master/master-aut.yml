@@ -1,0 +1,32 @@
+---
+- hosts: devmastercasc
+  become: true
+  become_method: su
+  tasks:
+    - name: bajar servicio Master
+      service: name=cloudbees-core-cm state=stopped 
+
+    - name: remover archivos del workspace
+      shell: rm -rf  /app/jenkins_home/workspace/*
+
+    - name: Compress jenkins_home
+      archive:
+        path: /app/jenkins_home
+        dest: /app/jenkins_home/jenkins_home.tar.gz
+
+    - name: Compress tar.gz jenkins
+      archive:
+        path: /app/jenkins
+        dest: /app/jenkins.tar.gz
+
+    - name: delete logs jenkins
+      shell: rm -rf /app/jenkins/logs/*
+
+    - name: Download cloudbees-core-cm de nexus banco galicia
+      get_url:
+        url: http://nexus.bancogalicia.com.ar/repository/alm/cloudbees-core-cm/2.277.4.3/cloudbees-core-cm.war
+        dest: /app/jenkins/  
+        checksum: sha256:26bacae3a84cb69f4cf75cc39ead7e8346d39647f58b07c3c6969526450e709e
+
+    - name: subir servicio Master
+      service: name=cloudbees-core-cm state=started

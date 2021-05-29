@@ -1,0 +1,336 @@
+jenkins:
+######## agentes
+  labelAtoms:
+  - name: "ansible"
+  - name: "backup"
+  - name: "jinja"
+  - name: "master"
+  - name: "nodejs"
+  - name: "others"
+  - name: "windows"
+  - name: "netcore"
+  - name: "maven"
+  - name: "infoblox"
+  - name: "pagentclb03"
+  - name: "pagentclb04"
+  - name: "pagentclb05"
+  - name: "pagentclb06"
+  - name: "pagentclb08"
+  - name: "pagentclb10"
+  - name: "pagentclb12"
+  - name: "pagentclb14"
+  - name: "pagentclb16"
+ ## - name: "pwagentclb51"
+  - name: "python"
+  labelString: "backup" # master
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodes:
+### agrente pagentclb03
+  - permanent:
+      labelString: "python jinja"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb03"
+      mode: EXCLUSIVE
+      name: "pagentclb03"
+      numExecutors: 2
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### fin agente pagentclb03
+### agente pagentclb04
+  - permanent:
+      labelString: "ansible python nodejs others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb04"
+      mode: EXCLUSIVE
+      name: "pagentclb04"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb04
+### agente pagentclb12
+  - permanent:
+      labelString: "ansible python nodejs others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb12"
+      mode: EXCLUSIVE
+      name: "pagentclb12"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb12
+### agente pagentclb14
+  - permanent:
+      labelString: "ansible python nodejs others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb14"
+      mode: EXCLUSIVE
+      name: "pagentclb14"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb14
+### agente pagentclb05
+  - permanent:
+      labelString: "infoblox"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb05"
+      mode: EXCLUSIVE
+      name: "pagentclb05"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb05
+### agente pagentclb06
+  - permanent:
+      labelString: "maven others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb06"
+      mode: EXCLUSIVE
+      name: "pagentclb06"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb06
+### agente pagentclb08
+  - permanent:
+      labelString: "maven"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb08"
+      mode: EXCLUSIVE
+      name: "pagentclb08"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb08
+### agente pagentclb10
+  - permanent:
+      labelString: "netcore others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb10"
+      mode: EXCLUSIVE
+      name: "pagentclb10"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb10
+### agente pagentclb16
+  - permanent:
+      labelString: "netcore others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb16"
+      mode: EXCLUSIVE
+      name: "pagentclb16"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-dev-master05"
+      retentionStrategy: "always"
+### agente pagentclb16
+######## fin agentes
+#### master
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm: "operationsCenter"
+  slaveAgentPort: -1
+##### fin master
+###############################################################################
+  systemMessage: "Jenkins configured using CasC. v1"
+#######  CloudBees Jenkins Advisor  
+advisor:
+  acceptToS: true
+  email: "tyt-alm@bancogalicia.com.ar"
+  excludedComponents:
+  - "GCLogs"
+  - "Agents"
+  - "AgentsConfigFile"
+  - "ConfigFileComponent"
+  - "RootCAs"
+  - "SlaveLogs"
+  - "OtherConfigFilesComponent"
+  - "HeapUsageHistogram"
+  nagDisabled: false
+###### fin CloudBees Jenkins Advisor
+unclassified:  
+########nexus no descomentar ########
+#  globalNexusConfiguration:
+#    instanceId: "9e72ae12cf08490bbcca267461b11c48"
+########Openshift
+  globalPluginConfiguration:
+    buildConfigListInterval: 5
+    buildListInterval: 5
+    configMapListInterval: 5
+    credentialsId: "sa-devops-cross-token-dev"
+    enabled: false
+    #######enabled: true
+    foldersEnabled: true
+    imageStreamListInterval: 5
+    #######namespace: "almt-test-dev"
+    namespace: ""
+    secretListInterval: 5
+    server: "https://ocp-dev.bancogalicia.com.ar:443"
+######## FinOpenshift
+######## Maven
+  mavenModuleSet:
+    localRepository: "default"
+######## Fin maven
+######## sonar
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: false
+    installations:
+    - credentialsId: "sonar"
+      name: "sonar"
+      serverUrl: "http://10.0.47.30:9000"
+      triggers:
+        skipScmCause: false
+        skipUpstreamCause: false
+######## fin sonar
+######## tool 
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+######## Maven
+  maven:
+    installations:
+    - home: "/app/apache-maven-3.3.9/"
+      name: "maven_3_3_9"
+    - home: "app/apache-maven-3.5.0/"
+      name: "maven_3_5_0"
+    - home: "app/apache-maven-3.6.3/"
+      name: "maven_3_6_3"
+######## Fin Maven
+######## sonar
+  msBuildSQRunnerInstallation:
+    installations:
+    - home: "/app/sonar-scanner-msbuild-4.8.0.12008-netcoreapp2.0/"
+      name: "sonarms"
+    - home: "/app/sonar-scanner-msbuild-4.8.0.12008-netcoreapp3.0/"
+      name: "sonarms3"
+    - home: "/app/sonar-scanner-msbuild-4.8.0.12008-net46/"
+      name: "sonarmswin"
+######## Fin sonar
+######## nodejs
+  nodejs:
+    installations:
+    - home: "/app/node-v10.16.3-linux-x64/"
+      name: "node10"
+    - home: "/app/node-v8.11.4-linux-x64/"
+      name: "node8"
+######## fin nodejs
+######## Maven
+  pipelineMaven:
+    triggerDownstreamUponResultAborted: false
+    triggerDownstreamUponResultFailure: false
+    triggerDownstreamUponResultNotBuilt: false
+    triggerDownstreamUponResultSuccess: true
+    triggerDownstreamUponResultUnstable: false
+######## Fin Maven
+######## sonar
+  sonarRunnerInstallation:
+    installations:
+    - home: "/app/sonar-scanner-4.2.0.1873-linux/"
+      name: "sonar"
+######## Fin sonar
+######## fin tool 

@@ -1,0 +1,32 @@
+removeStrategy:
+ items: "none"
+ rbac: "sync"
+
+items:
+ - kind: "folder"
+   name: "testFolder"
+#   displayName: "ATH"
+#   description: "This contains all the Acceptance Test Harness jobs"
+#   groups:
+#     - name: "Administradores1"
+#       members:
+#         users:
+#           - "jane-doe"
+#       roles:
+#         - name: "admin"
+#         external_groups:
+#         - GAPALMTtestDEV
+
+#   items:
+#     - kind: "folder"
+#       name: "Test A"
+#       filteredRoles:
+#         - "developer"
+#         - "browser"
+#       items: 
+#         - kind: "folder"
+#           name: "cjoc-ath"
+#         - kind: "folder"
+#           name: "cje-ath"
+# - kind: "folder"
+#   name: "Plugins"

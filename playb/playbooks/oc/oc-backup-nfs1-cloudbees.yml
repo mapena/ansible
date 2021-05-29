@@ -1,0 +1,13 @@
+---
+- hosts: prdnfs
+  become: true
+  become_method: su
+  tasks:
+###### popcen12  oc
+    - name: remover archivos del workspace del popcen12
+      shell: rm -rf  /export/popcen12/jenkins_home/workspace/*
+    - name: Compress jenkins_home del popcen12
+      archive:
+        path: /export/popcen12/jenkins_home
+        dest: /export/popcen12/jenkins_home.tar.gz
+

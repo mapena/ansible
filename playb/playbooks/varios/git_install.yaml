@@ -1,0 +1,51 @@
+---
+###################################################################
+#     ansible-playbook  git_install.yaml -e "git_version=2.4.0"
+###################################################################
+- hosts: ljenkiclb02
+  vars:
+       git_version: "2.30.0"
+  tasks:
+    - name: Remover GIT
+      yum:
+        name: git
+        state: absent
+        autoremove: true
+
+    - name: Install the 'Development tools' package group
+      yum:
+        name: "@Development tools"
+        state: present
+    
+    - name: Install paquetitos
+      yum:   
+        name:
+          - gettext-devel
+          - openssl-devel
+          - perl-CPAN
+          - perl-devel
+          - zlib-devel   
+
+    - name: Download GIT de nexus banco galicia
+      get_url:
+        url: http://nexus.bancogalicia.com.ar/repository/alm/git/git-{{git_version}}.tar.gz
+        dest: /tmp/git-{{git_version}}.tar.gz
+#        checksum: sha256:8db4edd1a0a74ebf4b78aed3f9e25c8f2a7db3c00b1aaee94d1e9834fae24e61
+
+    - name: Extract tar
+      ansible.builtin.unarchive:
+        src: /tmp/git-{{git_version}}.tar.gz
+        dest: /tmp
+
+    - name: make configure
+      shell: chdir=/tmp/git-{{git_version}}/ make configure
+
+    - name: ./configure --prefix=/usr/local 
+      shell: chdir=/tmp/git-{{git_version}}/ ./configure --prefix=/usr/local
+
+    - name: make install
+      shell: chdir=/tmp/git-{{git_version}}/ make install
+
+    - name: git version
+      shell: echo | git --version
+

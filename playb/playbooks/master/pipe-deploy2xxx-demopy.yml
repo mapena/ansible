@@ -1,0 +1,37 @@
+---
+- name: pipe-deploy2xxx-demopy.yml
+########################################
+# pipe de despliegue a dev / int / qas
+########################################
+  hosts:  "{{ variable_host }}"
+  become: true
+  become_method: su
+  gather_facts: false
+  vars:
+    _user: uaprm08m
+    _token: "{{ _token_aprm08m }}"
+    _master: dummy 
+    _proj: dummy
+    _pipe: dummy
+  tasks:
+  #  pipeline para master dev / int
+    - name: "{{ ansible_play_name}} : ejecucion pipeline {{ _pipe }} en {{ _master }} (dev/int)"
+      shell: curl -X POST https://{{ _user }}:{{ _token }}@{{ _master }}.bancogalicia.com.ar/job/{{ _proj }}/job/{{ _pipe }}/build --data-urlencode json='{"parameter":[{"name":"LANGUAGE", "value":"python"},{"name":"HOOKTEAMS", "value":""},{"name":"GITURL", "value":"https://github.bancogalicia.com.ar/almt-test/demopy.git"},{"name":"VERACODE_ID", "value":"nothing"},{"name":"GITBRANCH", "value":"master"},{"name":"TOOL", "value":"any"}]}'
+      when: ( "{{ _proj }}" == "almt-test-dev" ) or ( "{{ _proj }}" == "almt-test-int" )
+
+ #  pipeline para master qas
+    - name: "{{ ansible_play_name}} : ejecucion pipeline {{ _pipe }} en {{ _master }} (qas)"
+      shell: curl -X POST https://{{ _user }}:{{ _token }}@{{ _master }}.bancogalicia.com.ar/job/{{ _proj }}/job/{{ _pipe }}/build --data-urlencode json='{"parameter":[{"name":"LANGUAGE", "value":"python"},{"name":"HOOKTEAMS", "value":""},{"name":"GITURL", "value":"https://github.bancogalicia.com.ar/almt-test/demopy.git"},{"name":"GITBRANCH", "value":"master"},{"name":"TOOL", "value":"any"}]}'
+      when: ( "{{ _proj }}" == "almt-test-qas" ) 
+
+#############################################################################################
+#    importante : para el paso siguiente de finalizacion del pipeline almt-test-dev-demopy2dev
+#                 se debe tener el log de cloudbees en INFO
+#############################################################################################
+
+    - name: "{{ ansible_play_name}} : Espera finalizacion del pipeline {{ _pipe }}"
+      wait_for:
+        path: /app/jenkins/logs/cloudbees-core-cm.log
+        search_regex: "{{ _pipe }} build is completed its status is : SUCCESS"
+        timeout: 1800
+        # 1800 = 1800 seg, = 30 min

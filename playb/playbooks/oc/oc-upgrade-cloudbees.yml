@@ -1,0 +1,21 @@
+---
+- hosts: oc
+  become: true
+  become_method: su
+  tasks:
+    - name: Compress tar.gz jenkins
+      archive:
+        path: /app/jenkins
+        dest: /app/jenkins.tar.gz
+
+    - name: delete logs jenkins
+      shell: rm -rf /app/jenkins/logs/*
+
+    - name: Download cloudbees-core-oc de nexus banco galicia
+      get_url:
+        url: http://nexus.bancogalicia.com.ar/repository/alm/cloudbees-core-oc/2.277.4.3/cloudbees-core-oc.war
+        dest: /app/jenkins/  
+        checksum: sha256:c974635c1459ad1f2d56f020637d91bd56e501cc57317542de118e42ea49ff1f
+
+#    - name: subir servicio Master
+#      service: name=cloudbees-core-oc state=started

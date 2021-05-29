@@ -1,0 +1,13 @@
+
+---
+- hosts: allserver
+  become: true
+  become_method: su
+  vars:
+    xapp: app
+  tasks:
+    - name: comando ID
+      shell: id
+
+#    - name: comando ls
+#      shell: "ls /{{ xapp }}/ > /tmp/salidals.txt"

@@ -1,0 +1,24 @@
+---
+- name: modificar-log.yml
+  hosts: "{{ variable_host }}" 
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+    - name: "{{ ansible_play_name }} : Cambir login de info a {{ log_nivel }}"
+      replace:
+        path: /app/jenkins_home/logging.properties
+        regexp: 'INFO'
+        replace: '{{ log_nivel }}'
+    - name: "{{ ansible_play_name }} : Cambir login de info a {{ log_nivel }}"
+      replace:
+        path: /app/jenkins_home/logging.properties
+        regexp: 'WARNING'
+        replace: '{{ log_nivel }}'
+    - name: "{{ ansible_play_name }} : Cambir login de info a {{ log_nivel }}"
+      replace:
+        path: /app/jenkins_home/logging.properties
+        regexp: 'SEVERE'
+        replace: '{{ log_nivel }}'
+
+

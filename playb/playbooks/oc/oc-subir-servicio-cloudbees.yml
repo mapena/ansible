@@ -1,0 +1,7 @@
+---
+- hosts: "{{ variable_host }}" 
+  become: true
+  become_method: su
+  tasks:
+    - name: subir servicio Master
+      service: name=cloudbees-core-oc state=started

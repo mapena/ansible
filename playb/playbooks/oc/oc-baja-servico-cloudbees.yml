@@ -1,0 +1,7 @@
+---
+- hosts: oc
+  become: true
+  become_method: su
+  tasks:
+    - name: bajar servicio Master
+      service: name=cloudbees-core-oc state=stopped 

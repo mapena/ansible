@@ -1,0 +1,19 @@
+---
+- hosts: [labnexus]
+  gather_facts: no
+  become: true
+  become_method: su
+  vars:
+    var1: Contenido-Variable-var1
+ #   nodos: ['nodo1','nodo2']
+  tasks:
+    - include_vars: name_vars.yml
+
+    - debug: msg="Hello, {{ name }}!"
+    - debug: msg="Hello, {{ varx1 }}!"
+    - debug: msg="Hello, {{ nodos }}!"
+
+    - name: armado de template
+      template:
+        src: texto1.txt.j2
+        dest: /tmp/texto1.txt

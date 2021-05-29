@@ -1,0 +1,38 @@
+
+validar conexion:
+
+0)ansible-playbook -v playbooks/id.yml --ask-vault-pass --user=l0170909 --ask-pass
+1)ansible-playbook playbooks/master/baja-servico-cloudbees.yml --ask-vault-pass --user=l0170909 --ask-pass
+===========================================================================================================================
+terminal nfs2:
+1)ansible-playbook playbooks/master/backup-nfs2-cloudbees.yml --ask-vault-pass --user=l0170909 --ask-pass
+===========================================================================================================================
+2)ansible-playbook playbooks/master/upgrade-master-cloudbees.yml --extra-vars "variable_host=devmaster1" --ask-vault-pass --user=l0170909 --ask-pass
+ (subir primario)
+3)ansible-playbook playbooks/master/subir-servicio-cloudbees.yml --extra-vars "variable_host='pmastdclb01'" --ask-vault-pass --user=l0170909 --ask-pass
+ (subir secundario)
+4)ansible-playbook playbooks/master/subir-servicio-cloudbees.yml --extra-vars "variable_host='pmastdclb02'" --ask-vault-pass --user=l0170909 --ask-pass
+
+
+5) rotar master
+
+7)ansible-playbook playbooks/master/upgrade-master-cloudbees.yml --extra-vars "variable_host=devmaster2" --ask-vault-pass --user=l0170909 --ask-pass
+ (subir primario)
+8)ansible-playbook playbooks/master/subir-servicio-cloudbees.yml --extra-vars "variable_host='pmastdclb03'" --ask-vault-pass --user=l0170909 --ask-pass
+ (subir secundario)
+9)ansible-playbook playbooks/master/subir-servicio-cloudbees.yml --extra-vars "variable_host='pmastdclb04'" --ask-vault-pass --user=l0170909 --ask-pass
+10) rotar master
+
+=============================================================================================================================
+terminal nfs1:
+1)ansible-playbook playbooks/master/backup-nfs1-cloudbees.yml --ask-vault-pass --user=l0170909 --ask-pass
+=============================================================================================================================
+2)ansible-playbook playbooks/master/upgrade-master-cloudbees.yml --extra-vars "variable_host='intmaster prdmaster'" --ask-vault-pass --user=l0170909 --ask-pass
+=============================================================================================================================
+
+ (subir primario)
+3)ansible-playbook playbooks/master/subir-servicio-cloudbees.yml --extra-vars "variable_host='imasteclb01 imasteclb03 pmastpclb01 pmastpclb03'" --ask-vault-pass --user=l0170909 --ask-pass
+ (subir secundario)
+4)ansible-playbook playbooks/master/subir-servicio-cloudbees.yml --extra-vars "variable_host='imasteclb02 imasteclb04 pmastpclb02 pmastpclb04'" --ask-vault-pass --user=l0170909 --ask-pass
+
+

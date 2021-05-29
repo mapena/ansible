@@ -1,0 +1,21 @@
+c--------archivo texto1.txt.j2
+recibo variable 
+        var1: {{ var1 }}
+        nodos: {{ nodos }}
+texto1.txt.j2 aaaa
+texto1.txt.j2 bbbb
+
+
+{% for itemnodo in nodos %}
+
+-------->  nodo {{ itemnodo  }}
+-------->  # incluir texto1-1.txt.j2 #
+{# comentario #}
+{# comentario #}
+{% include 'texto1-1.txt.j2' %}
+
+-------->  # incluir texto1-2.txt.j2 #
+{% include 'texto1-2.txt.j2' %}
+{% endfor %}
+
+f--------archivo texto1.txt.j2

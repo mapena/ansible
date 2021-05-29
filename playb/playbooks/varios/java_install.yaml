@@ -1,0 +1,26 @@
+###################################################################
+#     ansible-playbook  install Java
+###################################################################
+- hosts: ljenkiclb03
+  become: true
+  become_method: su
+  vars:
+       java_version: "11+28_linux-x64"
+       install_dir: "/app"
+  tasks:
+    - name: Download Java from Nexus
+      get_url:
+        url: http://nexus.bancogalicia.com.ar/repository/alm/agents/Soft/Java/openjdk-{{java_version}}_bin.tar.gz
+        dest: '{{install_dir}}/openjdk-{{java_version}}.tar.gz'
+
+    - name: Extract tar
+      ansible.builtin.unarchive:
+        src: '{{install_dir}}/openjdk-{{java_version}}.tar.gz'
+        dest: '{{install_dir}}'
+        remote_src: yes
+
+    - name: Change owner
+      shell: chown -R jenkins:jenkins {{install_dir}}/jdk*
+
+    - name: Remove tar
+      shell: rm -rf {{install_dir}}/openjdk-{{java_version}}.tar.gz

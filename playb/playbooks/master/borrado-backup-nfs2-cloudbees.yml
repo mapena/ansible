@@ -1,0 +1,19 @@
+---
+- name: borrado-backup-nfs2-cloudbees.yml
+  hosts: devnfs
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+###### pmastd12  desa
+    - name: "{{ ansible_play_name}} : borrado archivo  /export/pmastd12/jenkins_home.tar.gz"
+      ansible.builtin.file:
+        path: /export/pmastd12/jenkins_home.tar.gz
+        state: absent
+
+###### pmastd34  desa
+    - name: "{{ ansible_play_name}} : borrado archivo  /export/pmastd34/jenkins_home.tar.gz"
+      ansible.builtin.file:
+        path: /export/pmastd34/jenkins_home.tar.gz
+        state: absent
+

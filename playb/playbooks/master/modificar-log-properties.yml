@@ -1,0 +1,30 @@
+---
+- name: modificar-log-properties.yml
+  hosts: "{{ variable_host }}"
+  become: true
+  become_method: su
+  gather_facts: false
+  vars:
+    _pathLog: dummy
+    _logNivel: dummy
+  tasks:
+    - name: "{{ ansible_play_name }} : Cambir login de info a {{ _logNivel }}"
+      replace:
+        path: /{{ _pathLog }}/jenkins_home/logging.properties
+        regexp: 'INFO'
+        replace: '{{ _logNivel }}'
+      when: ( "{{ _logNivel }}" == "INFO" )
+
+    - name: "{{ ansible_play_name }} : Cambir login de WARNING a {{ _logNivel }}"
+      replace:
+        path: /{{ _pathLog }}/jenkins_home/logging.properties
+        regexp: 'WARNING'
+        replace: '{{ _logNivel }}'
+      when: ( "{{ _logNivel }}" == "WARNING" )
+
+    - name: "{{ ansible_play_name }} : Cambir login de SEVERE a {{ _logNivel }}"
+      replace:
+        path: /{{ _pathLog }}/jenkins_home/logging.properties
+        regexp: 'SEVERE'
+        replace: '{{ _logNivel }}'
+      when: ( "{{ _logNivel }}" == "SEVERE" )

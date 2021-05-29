@@ -1,0 +1,32 @@
+---
+- name: subir-servicio-cloudbees.yml
+  hosts: "{{ variable_host }}" 
+#         imasteclb01 imasteclb03 pmastpclb01 pmastpclb03
+#- hosts: imasteclb02 imasteclb04 pmastpclb02 pmastpclb04
+  become: true
+  become_method: su
+  gather_facts: false
+  vars:
+    _check: si
+  tasks:
+    - name: "{{ ansible_play_name}} : borrado archivo  cloudbees-core-cm.log"
+      ansible.builtin.file:
+        path: /app/jenkins/logs/cloudbees-core-cm.log
+        state: absent
+
+    - name: "{{ ansible_play_name}} : subir servicio Master"
+      service: name=cloudbees-core-cm state=started
+
+    - name: "{{ ansible_play_name}} : Espera Creacion archivo /app/jenkins/logs/cloudbees-core-cm.log"
+      wait_for:
+        path: /app/jenkins/logs/cloudbees-core-cm.log
+      when: ( "{{ _check }}" == "si" )
+
+    - name: "{{ ansible_play_name}} : Espera inicio Servicio en /app/jenkins/logs/cloudbees-core-cm.log"
+      wait_for:
+        path: /app/jenkins/logs/cloudbees-core-cm.log
+        search_regex: for complete Jenkins startup
+      when: ( "{{ _check }}" == "si" )
+##
+##  validar si search_regex: for complete Jenkins startup sirve para los servidores pasivos
+##

@@ -1,0 +1,20 @@
+---
+- name: pause.yml
+  hosts: labnexus
+  become: true
+  become_method: su
+  gather_facts: false
+  vars:
+    _mensaje : "{{ _msg | default('')}}"
+  tasks:
+    - name: "{{ ansible_play_name}} : mensaje"
+      ansible.builtin.debug:  
+        msg: "{{ _mensaje }}"
+
+    - name: "{{ ansible_play_name}} : Confirmar para avanzar"
+      pause:
+        prompt: "Escriba 'si' para continuar"
+      register: myvar
+      until: myvar.user_input == "si"
+      retries: 5
+      delay: 1

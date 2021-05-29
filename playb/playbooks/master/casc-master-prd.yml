@@ -1,0 +1,68 @@
+---
+- hosts: prdmastercasc
+  become: true
+  become_method: su
+  tasks:
+    - name: bajar servicio Master
+      service: name=cloudbees-core-cm state=stopped 
+
+    - name: remover archivos del workspace
+      shell: rm -rf  /jenkins_home/workspace/*
+
+    - name: Compress jenkins_home
+      archive:
+        path: /jenkins_home
+        dest: /jenkins_home/jenkins_home.tar.gz
+
+    - name: Compress tar.gz jenkins
+      archive:
+        path: /app/jenkins
+        dest: /app/jenkins.tar.gz
+
+    - name: delete logs jenkins
+      shell: rm -rf /app/jenkins/logs/*
+
+    - name: subir servicio Master
+      service: name=cloudbees-core-cm state=started
+
+#-----------------------------------------------------------------
+#  pause
+#-----------------------------------------------------------------
+    - name: pausa para validar si continuar
+      import_playbook: pause.yml
+      vars:
+        _mensaje: "*** Validar que la actualizacion de plugins del Master prd este OK y dev01 este ok ***"   
+
+#-----------------------------------------------------------------   
+      
+    - name: bajar servicio Master
+      service: name=cloudbees-core-cm state=stopped 
+       
+    - name: Download cloudbees-core-cm de nexus banco galicia
+      get_url:
+        url: http://nexus.bancogalicia.com.ar/repository/alm/cloudbees-core-cm/2.277.4.3/cloudbees-core-cm.war
+        dest: /app/jenkins/  
+        checksum: sha256:26bacae3a84cb69f4cf75cc39ead7e8346d39647f58b07c3c6969526450e709e
+
+    - name: subir servicio Master
+      service: name=cloudbees-core-cm state=started
+
+#-----------------------------------------------------------------
+    - name: pipe-deploy2xxx-demopy.yml
+      import_playbook: pipe-deploy2xxx-demopy.yml
+      vars:
+        variable_host: pmastpclb01
+        _master: prd-master01
+        _proj: almt-test-qas
+        _pipe: almt-test-qas-demopy2prd
+#-----------------------------------------------------------------
+
+###-------------------------------------------------------------------
+###     pipeline upgrade credenciales para prod
+###-------------------------------------------------------------------
+##- name: ejecutar el pipe-Update-Credencial-clb en prd-master01
+##  import_playbook: pipe-update-credencial-clb.yml
+##  vars:
+##    variable_host: pmastpclb01
+##    _master: prd-master01
+###-------------------------------------------------------------------

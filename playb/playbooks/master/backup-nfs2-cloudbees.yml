@@ -1,0 +1,65 @@
+---
+- name: backup-nfs2-cloudbees.yml
+  hosts: devnfs
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+#***************************************************************************
+# Generacion _id.ansible_job_id = Ok
+    - name: "{{ ansible_play_name}} : Ejecucion dummy id"
+      shell : id
+      async: 5000
+      poll: 0
+      register: _id
+      
+    - name: "{{ ansible_play_name}} : Espera de finalizacion dummy id"
+      async_status: 
+        jid="{{ item }}"
+      register: job_result
+      until: job_result.finished
+      retries: 1000
+      delay: 5
+      with_items:
+        - "{{ _id.ansible_job_id }}"
+#***************************************************************************
+    - name: "{{ ansible_play_name }} : Registrar si existe archivos .tar.gz"
+      stat:
+        path: "/export/{{ item }}/jenkins_home.tar.gz"
+      register: _exists_tar
+      loop:  
+         - pmastd12
+         - pmastd34
+
+    - name: "{{ ansible_play_name }} : remover archivos del workspace "
+      shell: rm -rf  /export/{{ item }}/jenkins_home/workspace/*
+      loop:  
+         - pmastd12
+         - pmastd34
+
+    - name: "{{ ansible_play_name }} : crear .tar.gz "
+      archive:
+        path: "/export/{{ item }}/jenkins_home"
+        dest: "/export/{{ item }}/jenkins_home.tar.gz"
+      async: 5000
+      poll: 0
+      register: tar_file
+      when: ( not _exists_tar.results[my_idx].stat.exists )
+      loop:  
+         - pmastd12
+         - pmastd34
+      loop_control:
+        index_var: my_idx
+#***************************************************************************      
+    - name: "{{ ansible_play_name }} : Espera ejecucion tareas backup"
+      async_status: 
+        jid="{{ item }}"
+      register: job_result
+      until: job_result.finished
+      retries: 1000
+      delay: 5
+      with_items:
+        - "{{ ( _exists_tar.results[0].stat.exists ) | ternary( ( _id.ansible_job_id ), ( tar_file.results[0].ansible_job_id ) ) }}"
+        - "{{ ( _exists_tar.results[1].stat.exists ) | ternary( ( _id.ansible_job_id ), ( tar_file.results[1].ansible_job_id ) ) }}"
+## _exists_tar.results[0] = pmastd12
+## _exists_tar.results[1] = pmastd34

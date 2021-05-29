@@ -1,0 +1,140 @@
+---
+- name: upgradeMasterDev-nfs2.yml
+# allplaybook-nfs2-cloudbees
+  hosts: labnexus
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+  #-----------------------------------------------------------------
+- name: bajar servicio Master
+  import_playbook: baja-servico-cloudbees.yml
+  vars:
+    variable_host: devmaster1,devmaster2
+#-----------------------------------------------------------------
+- name: hacer backup nfs2
+  import_playbook: backup-nfs2-cloudbees.yml
+#-----------------------------------------------------------------
+- name: Upgrade de cloudbees
+  import_playbook: upgrade-master-cloudbees.yml
+  vars:
+    variable_host: devmaster1
+ 
+#-----------------------------------------------------------------
+#
+#    tarea para cambiar logg.properties a INFO
+- name: setear logg.properties en INFO
+  import_playbook: modificar-log-properties.yml
+  vars:
+    variable_host: pmastdclb01
+    _pathLog: pmastd12
+    _logNivel: INFO
+#
+#-----------------------------------------------------------------
+
+- name: subir sercicio Master activo - dev1 (pmastdclb01)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastdclb01
+    
+- name: subir sercicio Master pasivo - dev1 (pmastdclb02)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastdclb02
+    _check: no
+#-------------------------------------------------------------------
+#     pipeline upgrade credenciales para dev1
+#-------------------------------------------------------------------
+- name: ejecutar el pipe-Update-Credencial-clb en dev-master01
+  import_playbook: pipe-update-credencial-clb.yml
+  vars:
+    variable_host: pmastdclb01
+    _master: dev-master01
+#-------------------------------------------------------------------
+#     deploy demopy en dev-master01
+#-------------------------------------------------------------------
+- name: ejecutar el pipe-deploy2dev-demopy-clb.yml en dev1
+  import_playbook: pipe-deploy2xxx-demopy.yml 
+  #pipe-deploy2dev-demopy-clb.yml
+  vars:
+    variable_host: pmastdclb01
+    _master: dev-master01
+    _proj: almt-test-dev
+    _pipe: almt-test-dev-demopy2dev
+#-------------------------------------------------------------------
+
+#####                                            #####
+#####    validar si dev1 quedo bien instalado.   #####
+#####                                            #####
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#  pause
+#-----------------------------------------------------------------
+- name: pausa para validar si continuar
+  import_playbook: pause.yml
+  vars:
+    _mensaje: "*** Validar que el Master Dev1 este OK ***"
+
+#  comienzo de instalacion en dev2
+#-----------------------------------------------------------------
+- name: Upgrade de cloudbees
+  import_playbook: upgrade-master-cloudbees.yml
+  vars:
+    variable_host: devmaster2
+#-----------------------------------------------------------------
+- name: subir sercicio Master activo - dev2 (pmastdclb03)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastdclb03
+
+- name: subir sercicio Master pasivo - dev2 (pmastdclb04)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastdclb04
+    _check: no
+#-------------------------------------------------------------------
+#     pipeline upgra de credenciales para dev1
+#-------------------------------------------------------------------
+- name: ejecutar el pipe-Update-Credencial-clb en dev-master02
+  import_playbook: pipe-update-credencial-clb.yml
+  vars:
+    variable_host: pmastdclb03
+    _master: dev-master02
+#-----------------------------------------------------------------
+#  pause
+#-----------------------------------------------------------------
+- name: pausa para validar si continuar
+  import_playbook: pause.yml
+  vars:
+    _mensaje: "*** Se va a pasar el logg.properties a Severe/WARNING ***"
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+- name: bajar servicio Master
+  import_playbook: baja-servico-cloudbees.yml
+  vars:
+    variable_host: devmaster1
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#
+#    tarea para cambiar logg.properties a SERVERO
+- name: setear logg.properties en SEVERE
+  import_playbook: modificar-log-properties.yml
+  vars:
+    variable_host: pmastdclb01
+    _pathLog: pmastd12
+    _logNivel: SEVERE
+#-------------------------------------------------------------------
+- name: subir sercicio Master activo - dev1 (pmastdclb01)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastdclb01
+    _check: no 
+- name: subir sercicio Master pasivo - dev1 (pmastdclb02)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastdclb02
+    _check: no    
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+# hacer failover
+#-------------------------------------------------------------------

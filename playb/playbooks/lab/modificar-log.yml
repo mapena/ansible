@@ -1,0 +1,13 @@
+---
+- name: modificar-log.yml
+  hosts: "{{ variable_host }}" 
+  become: true
+  become_method: su
+  tasks:
+    - name: "{{ ansible_play_name }} : Cambir login de info a {{ log_nivel }}"
+      shell: sed -i "s%INFO%{{ log_nivel }}%g" "/app/jenkins_home/logging.properties"
+    - name: "{{ ansible_play_name }} : Cambir login de severe a {{ log_nivel }}"
+      shell: sed -i "s%SEVERE%{{ log_nivel }}%g" "/app/jenkins_home/logging.properties"
+    - name: "{{ ansible_play_name }} : Cambir login de warning a {{ log_nivel }}"
+      shell: sed -i "s%WARNING%{{ log_nivel }}%g" "/app/jenkins_home/logging.properties"
+      

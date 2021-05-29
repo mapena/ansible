@@ -1,0 +1,85 @@
+---
+# ansible-playbook playbooks/master/allplaybook-test-2qas.yml --ask-vault-pass --user=l0170909 --ask-pass
+- name: allplaybook-test.yml
+  hosts: labnexus
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+- name: bajar servicio Master
+  import_playbook: baja-servico-cloudbees.yml
+  vars:
+    variable_host: prdmaster1
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#
+#    tarea para cambiar logg.properties a INFO
+- name: setear logg.properties en INFO
+  import_playbook: modificar-log-properties.yml
+  vars:
+    variable_host: pmastpclb01
+    _pathLog: pmastp12
+    _logNivel: INFO
+#
+#-----------------------------------------------------------------
+#-------------------------------------------------------------------
+- name: subir sercicio Master activo - prd1 (pmastpclb01)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastpclb01
+
+- name: subir sercicio Master pasivo - prd1 (pmastpclb02)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastpclb02
+    _check: no
+#-------------------------------------------------------------------
+#-----------------------------------------------------------------
+- name: pipe-deploy2xxx-demopy.yml
+  import_playbook: pipe-deploy2xxx-demopy.yml
+  vars:
+    variable_host: pmastpclb01
+    _master: prd-master01
+    _proj: almt-test-qas
+    _pipe: almt-test-qas-demopy2prd
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#  pause
+#-----------------------------------------------------------------
+- name: pausa para validar si continuar
+  import_playbook: pause.yml
+  vars:
+    _mensaje: "*** validar si corrio ok el pipe-deploy a prd ***"
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+- name: bajar servicio Master
+  import_playbook: baja-servico-cloudbees.yml
+  vars:
+    variable_host: prdmaster1
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#
+#    tarea para cambiar logg.properties a SEVERE
+- name: setear logg.properties en SEVERE
+  import_playbook: modificar-log-properties.yml
+  vars:
+    variable_host: pmastpclb01
+    _pathLog: pmastp12
+    _logNivel: SEVERE
+#
+#-----------------------------------------------------------------
+#-------------------------------------------------------------------
+- name: subir sercicio Master activo - prd1 (pmastpclb01)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastpclb01
+
+- name: subir sercicio Master pasivo - prd1 (pmastpclb02)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: pmastpclb02
+    _check: no
+#-------------------------------------------------------------------

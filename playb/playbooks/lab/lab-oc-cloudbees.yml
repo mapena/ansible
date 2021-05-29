@@ -1,0 +1,32 @@
+---
+- hosts: labtodos
+  become: true
+  become_method: su
+  tasks:
+    - name: bajar servicio OC
+      service: name=cloudbees-core-oc state=stopped 
+
+    - name: remover archivos del workspace
+      shell: rm -rf  /app/jenkins_home/workspace/*
+
+    - name: Compress jenkins_home
+      archive:
+        path: /app/jenkins_home
+        dest: /app/jenkins_home.tar.gz
+
+    - name: Compress tar.gz jenkins
+      archive:
+        path: /app/jenkins
+        dest: /app/jenkins.tar.gz
+
+    - name: delete logs jenkins
+      shell: rm -rf /app/jenkins/logs/*
+      
+    - name: Download cloudbees-core-oc de nexus banco galicia
+      get_url:
+        url: http://nexus.bancogalicia.com.ar/repository/alm/cloudbees-core-oc/2.263.4.2/cloudbees-core-oc.war
+        dest: /app/jenkins/  
+        checksum: sha256:dd4e8d87114f38e7639eb4d00fd6594e83dc518fef7ebe838a914aeb4a0e55ca
+
+    - name: subir servicio OC
+      service: name=cloudbees-core-oc state=started

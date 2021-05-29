@@ -1,0 +1,18 @@
+validar conexion:
+
+0)ansible-playbook -v playbooks/id.yml --ask-vault-pass --user=l0170909 --ask-pass
+
+EN CONSOLA 1: (PARA MASTER DESARROLLO)
+
+
+0)ansible-playbook playbooks/master/borrado-backup-nfs2-cloudbees.yml  --ask-vault-pass --user=l0170909 --ask-pass
+1)ansible-playbook playbooks/master/upgradeMasterDev-nfs2.yml --ask-vault-pass --user=l0170909 --ask-pass
+===========================================================================================================================
+
+EN CONSOLA 2: (PARA MASTER INTE Y PRD)
+
+0)ansible-playbook playbooks/master/borrado-backup-nfs1-cloudbees.yml  --ask-vault-pass --user=l0170909 --ask-pass
+1)ansible-playbook playbooks/master/upgradeMasterInte_Prd-nfs1.yml --ask-vault-pass --user=l0170909 --ask-pass
+===========================================================================================================================
+
+ansible-playbook playbooks/master/backup-nfs2-cloudbees-dev.yml --user=l0170909 --ask-pass --vault-password-file /home/l0170909/MyVa

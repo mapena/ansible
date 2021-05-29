@@ -1,0 +1,26 @@
+---
+- name: upgrade-master-cloudbees.yml
+  hosts: "{{ variable_host }}"
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+    - name: "{{ ansible_play_name}} : crear archivo jenkins.tar.gz"
+      archive:
+        path: /app/jenkins
+        dest: /app/jenkins.tar.gz
+
+    - name: "{{ ansible_play_name}} : delete logs jenkins"
+      shell: rm -rf /app/jenkins/logs/*
+
+#    - name: Remove file (cloudbees-core-cm.war)
+#      ansible.builtin.file:
+#        path: /app/jenkins/cloudbees-core-cm.war
+#        state: absent
+
+
+    - name: "{{ ansible_play_name}} : Download cloudbees-core-cm.war de nexus"
+      get_url:
+        url: https://nexus.bancogalicia.com.ar/repository/alm/cloudbees-core-cm/2.277.4.3/cloudbees-core-cm.war
+        dest: /app/jenkins/  
+        checksum: sha256:26bacae3a84cb69f4cf75cc39ead7e8346d39647f58b07c3c6969526450e709e

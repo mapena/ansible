@@ -1,0 +1,169 @@
+---
+- name: upgradeMasterInte_Prd-nfs1.yml 
+# allplaybook-nfs1.yml
+  hosts: labnexus
+  become: true
+  become_method: su
+  gather_facts: false
+  tasks:
+  #-----------------------------------------------------------------
+- name: bajar servicio Master
+  import_playbook: baja-servico-cloudbees.yml
+  vars:
+    variable_host: intmaster
+   #variable_host: intmaster,prdmaster
+#-----------------------------------------------------------------
+- name: hacer backup nfs1
+  import_playbook: backup-nfs1-cloudbees.yml
+#-----------------------------------------------------------------
+#  pause
+#-----------------------------------------------------------------
+- name: pausa para validar si continuar
+  import_playbook: pause.yml
+  vars:
+    _mensaje: "*** Validar que el Master Dev1 este OK ***"
+#-----------------------------------------------------------------
+# fin pause
+#-----------------------------------------------------------------
+- name: Upgrade de cloudbees
+  import_playbook: upgrade-master-cloudbees.yml
+  vars:
+    variable_host: intmaster
+   #variable_host: intmaster,prdmaster
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#    tarea para cambiar logg.properties a INFO
+- name: setear logg.properties en INFO
+  import_playbook: modificar-log-properties.yml
+  vars:
+    variable_host: imasteclb01
+    _pathLog: pmasti12
+    _logNivel: INFO
+
+##- name: setear logg.properties en INFO
+##  import_playbook: modificar-log-properties.yml
+##  vars:
+##    variable_host: pmastpclb01
+##    _pathLog: pmastp12
+##    _logNivel: INFO
+#-------------------------------------------------------------------
+#-----------------------------------------------------------------
+
+#- name: subir servicio Master activo (imasteclb01 imasteclb03 pmastpclb01 pmastpclb03)
+- name: subir servicio Master activo (imasteclb01 imasteclb03)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: imasteclb01,imasteclb03
+   #variable_host: imasteclb01,imasteclb03,pmastpclb01,pmastpclb03
+
+#- name: subir sercicio Master pasivo (imasteclb02 imasteclb04 pmastpclb02 pmastpclb04)
+- name: subir sercicio Master pasivo (imasteclb02 imasteclb04)
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: imasteclb02,imasteclb04
+   #variable_host: imasteclb02,imasteclb04,pmastpclb02,pmastpclb04
+    _check: no    
+#-------------------------------------------------------------------
+#     pipeline upgrade credenciales para inte
+#-------------------------------------------------------------------
+- name: ejecutar el pipe-Update-Credencial-clb en int-master01
+  import_playbook: pipe-update-credencial-clb.yml
+  vars:
+    variable_host: imasteclb01
+    _master: int-master01
+#-------------------------------------------------------------------
+- name: ejecutar el pipe-Update-Credencial-clb en int-master02
+  import_playbook: pipe-update-credencial-clb.yml
+  vars:
+    variable_host: imasteclb03
+    _master: int-master02
+###-------------------------------------------------------------------
+###     pipeline upgrade credenciales para prod
+###-------------------------------------------------------------------
+##- name: ejecutar el pipe-Update-Credencial-clb en prd-master01
+##  import_playbook: pipe-update-credencial-clb.yml
+##  vars:
+##    variable_host: pmastpclb01
+##    _master: prd-master01
+###-------------------------------------------------------------------
+##- name: ejecutar el pipe-Update-Credencial-clb en prd-master02
+##  import_playbook: pipe-update-credencial-clb.yml
+##  vars:
+##    variable_host: pmastpclb03
+##    _master: prd-master02
+###-----------------------------------------------------------------
+# ejecucion pipeline despliegue a inte
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+- name: pipe-deploy2xxx-demopy.yml
+  import_playbook: pipe-deploy2xxx-demopy.yml
+  vars:
+    variable_host: imasteclb01
+    _master: int-master01
+    _proj: almt-test-int
+    _pipe: almt-test-int-demopy2int
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+##- name: pipe-deploy2xxx-demopy.yml
+##  import_playbook: pipe-deploy2xxx-demopy.yml
+##  vars:
+##    variable_host: pmastpclb01
+##    _master: prd-master01
+##    _proj: almt-test-qas
+##    _pipe: almt-test-qas-demopy2prd
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#  pause
+#-----------------------------------------------------------------
+- name: pausa para validar si continuar
+  import_playbook: pause.yml
+  vars:
+    _mensaje: "*** Validar demopy2int, Se va a pasar el logg.properties a Severe/WARNING ***"
+#-----------------------------------------------------------------
+- name: bajar servicio Master
+  import_playbook: baja-servico-cloudbees.yml
+  vars:
+    variable_host: intmaster1
+  #variable_host: intmaster1,prdmaster1
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+#
+#-----------------------------------------------------------------
+#    tarea para cambiar logg.properties a SEVERE
+- name: setear logg.properties en SEVERE
+  import_playbook: modificar-log-properties.yml
+  vars:
+    variable_host: imasteclb01
+    _pathLog: pmasti12
+    _logNivel: SEVERE
+
+##- name: setear logg.properties en SEVERE
+##  import_playbook: modificar-log-properties.yml
+##  vars:
+##    variable_host: pmastpclb01
+##    _pathLog: pmastp12
+##    _logNivel: SEVERE
+#-------------------------------------------------------------------
+
+#
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+- name: subir sercicio Master activo (imasteclb01  pmastpclb01 )
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: imasteclb01
+   #variable_host: imasteclb01,pmastpclb01
+    _check: no 
+    
+- name: subir sercicio Master pasivo (imasteclb02  pmastpclb02 )
+  import_playbook: subir-servicio-cloudbees.yml
+  vars:
+    variable_host: imasteclb02
+   #variable_host: imasteclb02,pmastpclb02
+    _check: no    
+
+
+#-------------------------------------------------------------------
+# hacer failover
+#-------------------------------------------------------------------

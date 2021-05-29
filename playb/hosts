@@ -1,0 +1,74 @@
+[labnexus]
+lnexusapp01  ansible_become_password="{{ _lnexusapp01 }}"
+
+[labljenkins]
+ljenkiclb02  ansible_become_password="{{ _ljenkiclb02 }}"
+
+[devmaster1] 
+pmastdclb01  ansible_become_password="{{ _pmastdclb01 }}"
+pmastdclb02  ansible_become_password="{{ _pmastdclb02 }}"
+
+[devmaster2]  
+pmastdclb03  ansible_become_password="{{ _pmastdclb03 }}"
+pmastdclb04  ansible_become_password="{{ _pmastdclb04 }}"
+
+[devmastercasc]
+dmasteclb05  ansible_become_password="{{ _dmasteclb05 }}"
+dmasteclb06  ansible_become_password="{{ _dmasteclb06 }}"
+
+[intmaster1]
+imasteclb01  ansible_become_password="{{ _imasteclb01 }}"
+imasteclb02  ansible_become_password="{{ _imasteclb02 }}"
+
+[intmaster2]
+imasteclb03  ansible_become_password="{{ _imasteclb03 }}"
+imasteclb04  ansible_become_password="{{ _imasteclb04 }}"
+
+[auto]
+pmaautclb01  ansible_become_password="{{ _pmaautclb01 }}"
+
+[oc]
+popcenclb01  ansible_become_password="{{ _popcenclb01 }}"
+popcenclb02  ansible_become_password="{{ _popcenclb02 }}"
+
+
+[prdnfs]
+pclbnfs01  ansible_become_password="{{ _pclbnfs01 }}"
+
+[devnfs]
+pclbnfs02  ansible_become_password="{{ _pclbnfs02 }}"
+
+[prdmastercasc]
+pmastpclb01  ansible_become_password="{{ _pmastpclb01 }}"
+pmastpclb02  ansible_become_password="{{ _pmastpclb02 }}"
+pmastpclb03  ansible_become_password="{{ _pmastpclb03 }}"
+pmastpclb04  ansible_become_password="{{ _pmastpclb04 }}"
+
+
+[labtodos:children]
+labnexus
+labljenkins
+
+[devmaster:children]
+devmaster1
+devmaster2
+devmastercasc
+
+[intmaster:children]
+intmaster1
+intmaster2
+
+[allmaster:children]
+devmaster
+intmaster
+prdmastercasc
+auto
+
+[allserver:children]
+oc
+allmaster
+devnfs
+prdnfs
+labtodos
+
+

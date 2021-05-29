@@ -1,0 +1,21 @@
+CHG17556
+
+validar conexion:
+0)ansible-playbook -v playbooks/id.yml --ask-vault-pass --user=l0699641 --ask-pass
+
+1)ansible-playbook playbooks/oc/oc-baja-servico-cloudbees.yml --ask-vault-pass --user=l0699641 --ask-pass
+
+2)ansible-playbook playbooks/oc/oc-backup-nfs1-cloudbees.yml --ask-vault-pass --user=l0699641 --ask-pass
+
+3)ansible-playbook playbooks/oc/oc-upgrade-cloudbees.yml --ask-vault-pass --user=l0699641 --ask-pass
+
+ (subir primario)
+4)ansible-playbook playbooks/oc/oc-subir-servicio-cloudbees.yml --extra-vars "variable_host='popcenclb01'" --ask-vault-pass --user=l0699641 --ask-pass
+
+ (subir secundario)
+5)ansible-playbook playbooks/oc/oc-subir-servicio-cloudbees.yml --extra-vars "variable_host='popcenclb02'" --ask-vault-pass --user=l0699641 --ask-pass
+
+
+5) rotar oc
+
+
