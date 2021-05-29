@@ -1,0 +1,120 @@
+jenkins:
+######## agentes
+  labelAtoms:
+{% for itemnodo in nodos %}
+  - name: "{{ items_labelAtoms }}"
+{% endfor %}
+  labelString: "backup" # master
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodes:
+{# --- labelAtoms --- #}
+{% for items_labelAtoms in _labelAtoms %}
+### agente items_labelAtoms
+  - name: "{{ items_labelAtoms }}"
+{% endfor %}
+{# --- Agentes --- #}
+{% for items_labelAtoms in _labelAtoms %}
+{% include 'Agente.yml.j2' %}
+{% endfor %}
+
+#### master
+{% include 'Master.yml.j2' %}
+##### fin master
+###############################################################################
+  systemMessage: "Jenkins configured using CasC. {{ _versionCasc }} {{ _versionDesc }}"
+#######  CloudBees Jenkins Advisor  
+advisor:
+  acceptToS: true
+  email: "tyt-alm@bancogalicia.com.ar"
+  excludedComponents:
+  - "GCLogs"
+  - "Agents"
+  - "AgentsConfigFile"
+  - "ConfigFileComponent"
+  - "RootCAs"
+  - "SlaveLogs"
+  - "OtherConfigFilesComponent"
+  - "HeapUsageHistogram"
+  nagDisabled: false
+###### fin CloudBees Jenkins Advisor
+unclassified:  
+
+##### Config File Management #####  
+{% include 'ConfigFileManagement.yml.j2' %}
+##### fin Config File Management ##### 
+
+########nexus no descomentar ########
+#  globalNexusConfiguration:
+#    instanceId: "9e72ae12cf08490bbcca267461b11c48"
+########Openshift
+  globalPluginConfiguration:
+    buildConfigListInterval: 5
+    buildListInterval: 5
+    configMapListInterval: 5
+    credentialsId: "sa-devops-cross-token-stg"
+    enabled: true
+    foldersEnabled: true
+    imageStreamListInterval: 5
+###    namespace: "almt-test-dev"
+    namespace: {{ _namespace:}}
+    secretListInterval: 5
+    server: "{{ server }}"
+######## FinOpenshift
+######## Maven
+  mavenModuleSet:
+    localRepository: "default"
+######## Fin maven
+######## sonar
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: false
+    installations:
+    - credentialsId: "sonar"
+      name: "sonar"
+      serverUrl: "http://10.0.47.30:9000"
+      triggers:
+        skipScmCause: false
+        skipUpstreamCause: false
+######## fin sonar
+######## statistics-gatherer
+  statisticsConfiguration:
+    buildInfo: true
+    buildStepInfo: false
+    buildUrl: "https://deploy-tracking-almc-integrations-prd.prdcloud.bancogalicia.com.ar/"
+    projectInfo: false
+    queueInfo: false
+    scmCheckoutInfo: false
+    shouldPublishToAwsSnsQueue: false
+    shouldSendApiHttpRequests: true
+    shouldSendToLogback: false
+  usageStatisticsCloudBees:
+    usageStatisticsCollected: true
+######## fin statistics-gatherer
+######## tool 
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+######## Maven
+{% include 'MavenInstallations.yml.j2' %}
+######## Fin Maven
+######## sonar
+{% include 'SonarMsBuilderInstallations.yml.j2' %}
+######## Fin sonar
+######## nodejs
+{% include 'NodejsInstallations.yml.j2' %}
+######## fin nodejs
+######## Maven
+  pipelineMaven:
+    triggerDownstreamUponResultAborted: false
+    triggerDownstreamUponResultFailure: false
+    triggerDownstreamUponResultNotBuilt: false
+    triggerDownstreamUponResultSuccess: true
+    triggerDownstreamUponResultUnstable: false
+######## Fin Maven
+######## sonar
+{% include 'SonarRunnerInstallations.yml.j2' %}
+######## Fin sonar
+######## fin tool 

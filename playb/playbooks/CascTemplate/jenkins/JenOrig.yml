@@ -1,0 +1,712 @@
+jenkins:
+######## agentes
+  labelAtoms:
+  - name: "papythclb01"
+  - name: "panodeclb01"
+  - name: "panetcclb01"
+  - name: "pajavaclb02"
+  - name: "pajavaclb01"
+  - name: "pagentclb03"
+  - name: "pagentclb01"
+  - name: "paansiclb01"
+  - name: "idseopclb02"
+  - name: "idseopclb01"
+  labelString: "backup" # master
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodes:
+### agrente idseopclb01
+  - permanent:
+      labelString: "devsecops"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "idseopclb01"
+      mode: EXCLUSIVE
+      name: "idseopclb01"
+      numExecutors: 6
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente idseopclb01
+### agente idseopclb02
+  - permanent:
+      labelString: "devsecops"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "idseopclb02"
+      mode: EXCLUSIVE
+      name: "idseopclb02"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 6
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente idseopclb02
+### agente paansiclb01
+  - permanent:
+      labelString: "ansible python nodejs skopeo others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "paansiclb01"
+      mode: EXCLUSIVE
+      name: "paansiclb01"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente paansiclb01
+### agente pagentclb01
+  - permanent:
+      labelString: "netcore skopeo others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb01"
+      mode: EXCLUSIVE
+      name: "pagentclb01"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente pagentclb01
+### agente pagentclb03
+  - permanent:
+      labelString: "jinja"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pagentclb03"
+      mode: EXCLUSIVE
+      name: "pagentclb03"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente pagentclb03
+### agente pajavaclb01
+  - permanent:
+      labelString: "maven skopeo others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pajavaclb01"
+      mode: EXCLUSIVE
+      name: "pajavaclb01"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente pajavaclb01
+### agente pajavaclb02
+  - permanent:
+      labelString: "maven skopeo others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "pajavaclb02"
+      mode: EXCLUSIVE
+      name: "pajavaclb02"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente pajavaclb02
+### agente panetcclb01
+  - permanent:
+      labelString: "netcore skopeo others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "panetcclb01"
+      mode: EXCLUSIVE
+      name: "panetcclb01"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente panetcclb01
+### agente panodeclb01
+  - permanent:
+      labelString: "nodejs skopeo others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "panodeclb01"
+      mode: EXCLUSIVE
+      name: "panodeclb01"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente panodeclb01
+### agente papythclb01
+  - permanent:
+      labelString: "python ansible nodejs skopeo others"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "papythclb01"
+      mode: EXCLUSIVE
+      name: "papythclb01"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "NODE_OPTIONS"
+            value: "--max_old_space_size=3072"
+      numExecutors: 4
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente papythclb01
+######## fin agentes
+#### master
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm: "operationsCenter"
+  slaveAgentPort: -1
+##### fin master
+###############################################################################
+  systemMessage: "Jenkins configured using CasC. v2 (casc)"
+#######  CloudBees Jenkins Advisor  
+advisor:
+  acceptToS: true
+  email: "tyt-alm@bancogalicia.com.ar"
+  excludedComponents:
+  - "GCLogs"
+  - "Agents"
+  - "AgentsConfigFile"
+  - "ConfigFileComponent"
+  - "RootCAs"
+  - "SlaveLogs"
+  - "OtherConfigFilesComponent"
+  - "HeapUsageHistogram"
+  nagDisabled: false
+###### fin CloudBees Jenkins Advisor
+unclassified:  
+
+##### Config File Management #####  
+  globalConfigFiles:
+    configs:
+    - custom:
+        content: "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<configuration>\n \
+          \ <packageSources>\n    <add key=\"NexusGalicia\" value=\"http://nexus.bancogalicia.com.ar/repository/nuget-group/\"\
+          \ />\t\n  </packageSources>\n  <disabledPackageSources>\n    <add key=\"\
+          Microsoft and .NET\" value=\"true\" />\n  </disabledPackageSources>\n</configuration>"
+        id: "NuGet.Config"
+        name: "NuGet.Config"
+        providerId: "org.jenkinsci.plugins.configfiles.custom.CustomConfig"
+    - json:
+        content: |-
+          {
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "themeColor": "0076D7",
+              "summary": "Se solicita Aprobación para pasaje a ENTORNO",
+              "sections": [{
+                  "activityTitle": "Se solicita Aprobación para pasaje a ENTORNO",
+                  "activitySubtitle": "Aplicación: APP_NAME",
+                  "activityText": "Proyecto: GIT_PROYECTO",
+                  "activityImage": "https://raw.githubusercontent.com/redhat-developer/intellij-openshift-connector/master/src/main/resources/images/openshift_extension.png",
+                  "activityImageType": "avatar",
+                  "facts": [{
+                      "name": "Legajo Autorizante:",
+                      "value": "AUTORIZANTE"
+                  }],
+                  "markdown": true
+              }],
+          "potentialAction": [{
+                "@type": "OpenUri",
+                "name": "APROBAR",
+                "targets": [
+                  { "os": "default", "uri": "JENKURL" }
+                ]
+              }
+            ]
+          }
+        id: "TEAMSJSON"
+        name: "JsonConfig"
+        providerId: "org.jenkinsci.plugins.configfiles.json.JsonConfig"
+    - mavenSettings:
+        comment: "User settings"
+        content: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <settings xmlns=\"\
+          http://maven.apache.org/SETTINGS/1.0.0\"\n           xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\
+          \n           xsi:schemaLocation=\"http://maven.apache.org/SETTINGS/1.0.0\
+          \ http://maven.apache.org/xsd/settings-1.0.0.xsd\">\n\n   <pluginGroups></pluginGroups>\n\
+          \   <servers>\n     <server>\n       <id>nexus</id>\n       <username>6V4FiPr5</username>\n\
+          \ \t  <password>UYsLZgI3vL1lE2_6a1QyMHEiw8UcTRkaF21_uSlV_leX</password>\n\
+          \     </server>\n   </servers>\n\n   <mirrors>\n     <mirror>\n       <id>nexus</id>\n\
+          \       <mirrorOf>*</mirrorOf>\n       <url>http://nexus.bancogalicia.com.ar/repository/maven-public/</url>\n\
+          \     </mirror>\n   </mirrors>\n\n   <profiles>\n     <profile>\n \t   \
+          \ <id>Galicia</id>\n\n \t    <repositories>\n \t\t    <repository>\n \t\t\
+          \      <id>nexus-galicia</id>\n \t\t      <url>http://nexus.bancogalicia.com.ar/repository/maven-public/</url>\n\
+          \ \t\t      <releases>\n \t\t        <enabled>true</enabled>\n \t\t    \
+          \  </releases>\n \t\t      <snapshots>\n \t\t        <enabled>false</enabled>\n\
+          \ \t\t      </snapshots>\n \t\t    </repository>\n \t\t</repositories>\n\
+          \n \t\t<pluginRepositories>\n \t\t    <pluginRepository>\n \t\t      <id>nexus-galicia</id>\n\
+          \ \t\t      <url>http://nexus.bancogalicia.com.ar/repository/maven-public/</url>\n\
+          \ \t\t      <releases>\n \t\t        <enabled>true</enabled>\n \t\t    \
+          \  </releases>\n \t\t      <snapshots>\n \t\t        <enabled>false</enabled>\n\
+          \ \t\t      </snapshots>\n \t\t    </pluginRepository>\n \t\t</pluginRepositories>\n\
+          \     </profile>\n\n \t\n   </profiles>\n\n   <activeProfiles>\n     <activeProfile>Galicia</activeProfile>\n\
+          \   </activeProfiles>\n\n\n </settings>"
+        id: "maven-settings"
+        isReplaceAll: true
+        name: "maven-settings"
+        providerId: "org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig"
+    - custom:
+        content: "apiVersion: v1\ndata:\n  fastcgi.conf: \"\\t\\r\\nfastcgi_param\
+          \  SCRIPT_FILENAME    $document_root$fastcgi_script_name;\\r\\nfastcgi_param\
+          \  QUERY_STRING       $query_string;\\r\\nfastcgi_param  REQUEST_METHOD\
+          \     $request_method;\\r\\nfastcgi_param  CONTENT_TYPE       $content_type;\\\
+          r\\nfastcgi_param  CONTENT_LENGTH     $content_length;\\r\\n\\r\\nfastcgi_param\
+          \  SCRIPT_NAME        $fastcgi_script_name;\\r\\nfastcgi_param  REQUEST_URI\
+          \        $request_uri;\\r\\nfastcgi_param  DOCUMENT_URI       $document_uri;\\\
+          r\\nfastcgi_param  DOCUMENT_ROOT      $document_root;\\r\\nfastcgi_param\
+          \  SERVER_PROTOCOL    $server_protocol;\\r\\nfastcgi_param  REQUEST_SCHEME\
+          \     $scheme;\\r\\nfastcgi_param  HTTPS              $https if_not_empty;\\\
+          r\\n\\r\\nfastcgi_param  GATEWAY_INTERFACE  CGI/1.1;\\r\\nfastcgi_param\
+          \  SERVER_SOFTWARE    nginx/$nginx_version;\\r\\n\\r\\nfastcgi_param  REMOTE_ADDR\
+          \        $remote_addr;\\r\\nfastcgi_param  REMOTE_PORT        $remote_port;\\\
+          r\\nfastcgi_param  SERVER_ADDR        $server_addr;\\r\\nfastcgi_param \
+          \ SERVER_PORT        $server_port;\\r\\nfastcgi_param  SERVER_NAME     \
+          \   $server_name;\\r\\n\\r\\n# PHP only, required if PHP was built with\
+          \ --enable-force-cgi-redirect\\r\\nfastcgi_param  REDIRECT_STATUS    200;\"\
+          \n  fastcgi.conf.default: \"fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;\\\
+          r\\nfastcgi_param  QUERY_STRING       $query_string;\\r\\nfastcgi_param\
+          \  REQUEST_METHOD     $request_method;\\r\\nfastcgi_param  CONTENT_TYPE\
+          \       $content_type;\\r\\nfastcgi_param  CONTENT_LENGTH     $content_length;\\\
+          r\\n\\r\\nfastcgi_param  SCRIPT_NAME        $fastcgi_script_name;\\r\\nfastcgi_param\
+          \  REQUEST_URI        $request_uri;\\r\\nfastcgi_param  DOCUMENT_URI   \
+          \    $document_uri;\\r\\nfastcgi_param  DOCUMENT_ROOT      $document_root;\\\
+          r\\nfastcgi_param  SERVER_PROTOCOL    $server_protocol;\\r\\nfastcgi_param\
+          \  REQUEST_SCHEME     $scheme;\\r\\nfastcgi_param  HTTPS              $https\
+          \ if_not_empty;\\r\\n\\r\\nfastcgi_param  GATEWAY_INTERFACE  CGI/1.1;\\\
+          r\\nfastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;\\r\\n\\r\\nfastcgi_param\
+          \  REMOTE_ADDR        $remote_addr;\\r\\nfastcgi_param  REMOTE_PORT    \
+          \    $remote_port;\\r\\nfastcgi_param  SERVER_ADDR        $server_addr;\\\
+          r\\nfastcgi_param  SERVER_PORT        $server_port;\\r\\nfastcgi_param \
+          \ SERVER_NAME        $server_name;\\r\\n\\r\\n# PHP only, required if PHP\
+          \ was built with --enable-force-cgi-redirect\\r\\nfastcgi_param  REDIRECT_STATUS\
+          \    200;\"\n  fastcgi_params: \"fastcgi_param  QUERY_STRING       $query_string;\\\
+          r\\nfastcgi_param  REQUEST_METHOD     $request_method;\\r\\nfastcgi_param\
+          \  CONTENT_TYPE       $content_type;\\r\\nfastcgi_param  CONTENT_LENGTH\
+          \     $content_length;\\r\\n\\r\\nfastcgi_param  SCRIPT_NAME        $fastcgi_script_name;\\\
+          r\\nfastcgi_param  REQUEST_URI        $request_uri;\\r\\nfastcgi_param \
+          \ DOCUMENT_URI       $document_uri;\\r\\nfastcgi_param  DOCUMENT_ROOT  \
+          \    $document_root;\\r\\nfastcgi_param  SERVER_PROTOCOL    $server_protocol;\\\
+          r\\nfastcgi_param  REQUEST_SCHEME     $scheme;\\r\\nfastcgi_param  HTTPS\
+          \              $https if_not_empty;\\r\\n\\r\\nfastcgi_param  GATEWAY_INTERFACE\
+          \  CGI/1.1;\\r\\nfastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;\\\
+          r\\n\\r\\nfastcgi_param  REMOTE_ADDR        $remote_addr;\\r\\nfastcgi_param\
+          \  REMOTE_PORT        $remote_port;\\r\\nfastcgi_param  SERVER_ADDR    \
+          \    $server_addr;\\r\\nfastcgi_param  SERVER_PORT        $server_port;\\\
+          r\\nfastcgi_param  SERVER_NAME        $server_name;\\r\\n\\r\\n# PHP only,\
+          \ required if PHP was built with --enable-force-cgi-redirect\\r\\nfastcgi_param\
+          \  REDIRECT_STATUS    200;\"\n  mime.types: \"types {\\r\\n    text/html\
+          \                             html htm shtml;\\r\\n    text/css        \
+          \                      css;\\r\\n    text/xml                          \
+          \    xml;\\r\\n    image/gif                             gif;\\r\\n    image/jpeg\
+          \                            jpeg jpg;\\r\\n    application/javascript \
+          \               js;\\r\\n    application/atom+xml                  atom;\\\
+          r\\n    application/rss+xml                   rss;\\r\\n\\r\\n    text/mathml\
+          \                           mml;\\r\\n    text/plain                   \
+          \         txt;\\r\\n    text/vnd.sun.j2me.app-descriptor      jad;\\r\\\
+          n    text/vnd.wap.wml                      wml;\\r\\n    text/x-component\
+          \                      htc;\\r\\n\\r\\n    image/png                   \
+          \          png;\\r\\n    image/tiff                            tif tiff;\\\
+          r\\n    image/vnd.wap.wbmp                    wbmp;\\r\\n    image/x-icon\
+          \                          ico;\\r\\n    image/x-jng                   \
+          \        jng;\\r\\n    image/x-ms-bmp                        bmp;\\r\\n\
+          \    image/svg+xml                         svg svgz;\\r\\n    image/webp\
+          \                            webp;\\r\\n\\r\\n    application/font-woff\
+          \                 woff;\\r\\n    application/java-archive              jar\
+          \ war ear;\\r\\n    application/json                      json;\\r\\n  \
+          \  application/mac-binhex40              hqx;\\r\\n    application/msword\
+          \                    doc;\\r\\n    application/pdf                     \
+          \  pdf;\\r\\n    application/postscript                ps eps ai;\\r\\n\
+          \    application/rtf                       rtf;\\r\\n    application/vnd.apple.mpegurl\
+          \         m3u8;\\r\\n    application/vnd.ms-excel              xls;\\r\\\
+          n    application/vnd.ms-fontobject         eot;\\r\\n    application/vnd.ms-powerpoint\
+          \         ppt;\\r\\n    application/vnd.wap.wmlc              wmlc;\\r\\\
+          n    application/vnd.google-earth.kml+xml  kml;\\r\\n    application/vnd.google-earth.kmz\
+          \      kmz;\\r\\n    application/x-7z-compressed           7z;\\r\\n   \
+          \ application/x-cocoa                   cco;\\r\\n    application/x-java-archive-diff\
+          \       jardiff;\\r\\n    application/x-java-jnlp-file          jnlp;\\\
+          r\\n    application/x-makeself                run;\\r\\n    application/x-perl\
+          \                    pl pm;\\r\\n    application/x-pilot               \
+          \    prc pdb;\\r\\n    application/x-rar-compressed          rar;\\r\\n\
+          \    application/x-redhat-package-manager  rpm;\\r\\n    application/x-sea\
+          \                     sea;\\r\\n    application/x-shockwave-flash      \
+          \   swf;\\r\\n    application/x-stuffit                 sit;\\r\\n    application/x-tcl\
+          \                     tcl tk;\\r\\n    application/x-x509-ca-cert      \
+          \      der pem crt;\\r\\n    application/x-xpinstall               xpi;\\\
+          r\\n    application/xhtml+xml                 xhtml;\\r\\n    application/xspf+xml\
+          \                  xspf;\\r\\n    application/zip                      \
+          \ zip;\\r\\n\\r\\n    application/octet-stream              bin exe dll;\\\
+          r\\n    application/octet-stream              deb;\\r\\n    application/octet-stream\
+          \              dmg;\\r\\n    application/octet-stream              iso img;\\\
+          r\\n    application/octet-stream              msi msp msm;\\r\\n\\r\\n \
+          \   application/vnd.openxmlformats-officedocument.wordprocessingml.document\
+          \    docx;\\r\\n    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\
+          \          xlsx;\\r\\n    application/vnd.openxmlformats-officedocument.presentationml.presentation\
+          \  pptx;\\r\\n\\r\\n    audio/midi                            mid midi kar;\\\
+          r\\n    audio/mpeg                            mp3;\\r\\n    audio/ogg  \
+          \                           ogg;\\r\\n    audio/x-m4a                  \
+          \         m4a;\\r\\n    audio/x-realaudio                     ra;\\r\\n\\\
+          r\\n    video/3gpp                            3gpp 3gp;\\r\\n    video/mp2t\
+          \                            ts;\\r\\n    video/mp4                    \
+          \         mp4;\\r\\n    video/mpeg                            mpeg mpg;\\\
+          r\\n    video/quicktime                       mov;\\r\\n    video/webm \
+          \                           webm;\\r\\n    video/x-flv                 \
+          \          flv;\\r\\n    video/x-m4v                           m4v;\\r\\\
+          n    video/x-mng                           mng;\\r\\n    video/x-ms-asf\
+          \                        asx asf;\\r\\n    video/x-ms-wmv              \
+          \          wmv;\\r\\n    video/x-msvideo                       avi;\\r\\\
+          n}\"\n  nginx.conf: \"# For more information on configuration, see:\\r\\\
+          n#   * Official English Documentation: http://nginx.org/en/docs/ \\r\\n#\
+          \   * Official Russian Documentation: http://nginx.org/ru/docs/ \\r\\n\\\
+          r\\n\\r\\nworker_processes auto;\\r\\nerror_log /var/opt/rh/rh-nginx112/log/nginx/error.log;\\\
+          r\\npid /var/opt/rh/rh-nginx112/run/nginx/nginx.pid;\\r\\n\\r\\n# Load dynamic\
+          \ modules. See /opt/rh/rh-nginx112/root/usr/share/doc/README.dynamic.\\\
+          r\\ninclude /opt/rh/rh-nginx112/root/usr/share/nginx/modules/*.conf;\\r\\\
+          n\\r\\nevents {\\r\\n    worker_connections  1024;\\r\\n}\\r\\n\\r\\nhttp\
+          \ {\\r\\n    log_format  main  '$remote_addr - $remote_user [$time_local]\
+          \ \\\"$request\\\" '\\r\\n                      '$status $body_bytes_sent\
+          \ \\\"$http_referer\\\" '\\r\\n                      '\\\"$http_user_agent\\\
+          \" \\\"$http_x_forwarded_for\\\"';\\r\\n\\r\\n    access_log  /var/opt/rh/rh-nginx112/log/nginx/access.log\
+          \  main;\\r\\n\\r\\n    sendfile        on;\\r\\n    tcp_nopush      on;\\\
+          r\\n    tcp_nodelay     on;\\r\\n    keepalive_timeout  65;\\r\\n    types_hash_max_size\
+          \ 2048;\\r\\n\\r\\n    include       /etc/opt/rh/rh-nginx112/nginx/mime.types;\\\
+          r\\n    default_type  application/octet-stream;\\r\\n\\r\\n    # Load modular\
+          \ configuration files from the /etc/nginx/conf.d directory.\\r\\n    # See\
+          \ http://nginx.org/en/docs/ngx_core_module.html#include \\r\\n    # for\
+          \ more information.\\r\\n    include /opt/app-root/etc/nginx.d/*.conf;\\\
+          r\\n\\r\\n    server {\\r\\n        listen       8080 default_server;\\\
+          r\\n        listen       [::]:8080 default_server;\\r\\n        server_name\
+          \  _;\\r\\n        root         /opt/app-root/src;\\r\\n        add_header\
+          \ X-UA-Compatible \\\"IE=11\\\";\\r\\n\\r\\n        # Load configuration\
+          \ files for the default server block.\\r\\n        include      /opt/app-root/etc/nginx.default.d/*.conf;\\\
+          r\\n\\r\\n        location / {\\r\\n          try_files $uri /index.html;\\\
+          r\\n        }\\r\\n        \\r\\n        if (-d $request_filename) {\\r\\\
+          n                rewrite [^/]$ https://$host$uri/ permanent;\\r\\n     \
+          \       }\\r\\n       \\r\\n        error_page 404 403 = @notfound;\\r\\\
+          n        location @notfound {\\r\\n            return 301 https://www.bancogalicia.com/banca/online/404;\
+          \   \\r\\n        }\\r\\n\\r\\n        error_page 500 502 503 504  /50x.html;\\\
+          r\\n        location = /50x.html {\\r\\n        }\\r\\n\\r\\n        # proxy\
+          \ the PHP scripts to Apache listening on 127.0.0.1:8080\\r\\n        #\\\
+          r\\n        #location ~ \\\\.php$ {\\r\\n        #    proxy_pass   http://127.0.0.1;\
+          \ \\r\\n        #}\\r\\n\\r\\n        # pass the PHP scripts to FastCGI\
+          \ server listening on 127.0.0.1:9000\\r\\n        #\\r\\n        #location\
+          \ ~ \\\\.php$ {\\r\\n        #    root           html;\\r\\n        #  \
+          \  fastcgi_pass   127.0.0.1:9000;\\r\\n        #    fastcgi_index  index.php;\\\
+          r\\n        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;\\\
+          r\\n        #    include        fastcgi_params;\\r\\n        #}\\r\\n\\\
+          r\\n        # deny access to .htaccess files, if Apache's document root\\\
+          r\\n        # concurs with nginx's one\\r\\n        #\\r\\n        #location\
+          \ ~ /\\\\.ht {\\r\\n        #    deny  all;\\r\\n        #}\\r\\n    }\\\
+          r\\n\\r\\n\\r\\n    # another virtual host using mix of IP-, name-, and\
+          \ port-based configuration\\r\\n    #\\r\\n    #server {\\r\\n    #    listen\
+          \       808000;\\r\\n    #    listen       somename:808080;\\r\\n    # \
+          \   server_name  somename  alias  another.alias;\\r\\n\\r\\n    #    location\
+          \ / {\\r\\n    #        root   html;\\r\\n    #        index  index.html\
+          \ index.htm;\\r\\n    #    }\\r\\n    #}\\r\\n\\r\\n\\r\\n    # HTTPS server\\\
+          r\\n    #\\r\\n    #server {\\r\\n    #    listen       443;\\r\\n    #\
+          \    server_name  localhost;\\r\\n\\r\\n    #    ssl                  on;\\\
+          r\\n    #    ssl_certificate      cert.pem;\\r\\n    #    ssl_certificate_key\
+          \  cert.key;\\r\\n\\r\\n    #    ssl_session_timeout  5m;\\r\\n\\r\\n  \
+          \  #    ssl_protocols  SSLv2 SSLv3 TLSv1;\\r\\n    #    ssl_ciphers  HIGH:!aNULL:!MD5;\\\
+          r\\n    #    ssl_prefer_server_ciphers   on;\\r\\n\\r\\n    #    location\
+          \ / {\\r\\n    #        root   html;\\r\\n    #        index  index.html\
+          \ index.htm;\\r\\n    #    }\\r\\n    #}\\r\\n\\r\\n}\"\n  scgi_params:\
+          \ \"scgi_param  REQUEST_METHOD     $request_method;\\r\\nscgi_param  REQUEST_URI\
+          \        $request_uri;\\r\\nscgi_param  QUERY_STRING       $query_string;\\\
+          r\\nscgi_param  CONTENT_TYPE       $content_type;\\r\\n\\r\\nscgi_param\
+          \  DOCUMENT_URI       $document_uri;\\r\\nscgi_param  DOCUMENT_ROOT    \
+          \  $document_root;\\r\\nscgi_param  SCGI               1;\\r\\nscgi_param\
+          \  SERVER_PROTOCOL    $server_protocol;\\r\\nscgi_param  REQUEST_SCHEME\
+          \     $scheme;\\r\\nscgi_param  HTTPS              $https if_not_empty;\\\
+          r\\n\\r\\nscgi_param  REMOTE_ADDR        $remote_addr;\\r\\nscgi_param \
+          \ REMOTE_PORT        $remote_port;\\r\\nscgi_param  SERVER_PORT        $server_port;\\\
+          r\\nscgi_param  SERVER_NAME        $server_name;\"\n  uwsgi_params: \"scgi_param\
+          \  REQUEST_METHOD     $request_method;\\r\\nscgi_param  REQUEST_URI    \
+          \    $request_uri;\\r\\nscgi_param  QUERY_STRING       $query_string;\\\
+          r\\nscgi_param  CONTENT_TYPE       $content_type;\\r\\n\\r\\nscgi_param\
+          \  DOCUMENT_URI       $document_uri;\\r\\nscgi_param  DOCUMENT_ROOT    \
+          \  $document_root;\\r\\nscgi_param  SCGI               1;\\r\\nscgi_param\
+          \  SERVER_PROTOCOL    $server_protocol;\\r\\nscgi_param  REQUEST_SCHEME\
+          \     $scheme;\\r\\nscgi_param  HTTPS              $https if_not_empty;\\\
+          r\\n\\r\\nscgi_param  REMOTE_ADDR        $remote_addr;\\r\\nscgi_param \
+          \ REMOTE_PORT        $remote_port;\\r\\nscgi_param  SERVER_PORT        $server_port;\\\
+          r\\nscgi_param  SERVER_NAME        $server_name;\\r\\nsh-4.2$ cat uwsgi_params\\\
+          r\\n\\r\\nuwsgi_param  QUERY_STRING       $query_string;\\r\\nuwsgi_param\
+          \  REQUEST_METHOD     $request_method;\\r\\nuwsgi_param  CONTENT_TYPE  \
+          \     $content_type;\\r\\nuwsgi_param  CONTENT_LENGTH     $content_length;\\\
+          r\\n\\r\\nuwsgi_param  REQUEST_URI        $request_uri;\\r\\nuwsgi_param\
+          \  PATH_INFO          $document_uri;\\r\\nuwsgi_param  DOCUMENT_ROOT   \
+          \   $document_root;\\r\\nuwsgi_param  SERVER_PROTOCOL    $server_protocol;\\\
+          r\\nuwsgi_param  REQUEST_SCHEME     $scheme;\\r\\nuwsgi_param  HTTPS   \
+          \           $https if_not_empty;\\r\\n\\r\\nuwsgi_param  REMOTE_ADDR   \
+          \     $remote_addr;\\r\\nuwsgi_param  REMOTE_PORT        $remote_port;\\\
+          r\\nuwsgi_param  SERVER_PORT        $server_port;\\r\\nuwsgi_param  SERVER_NAME\
+          \        $server_name;\"\n  win-utf: \"# This map is not a full windows-1251\
+          \ <> utf8 map: it does not\\r\\n# contain Serbian and Macedonian letters.\
+          \  If you need a full map,\\r\\n# use contrib/unicode2nginx/win-utf map\
+          \ instead.\\r\\n\\r\\ncharset_map  windows-1251  utf-8 {\\r\\n\\r\\n   \
+          \ 82  E2809A ; # single low-9 quotation mark\\r\\n\\r\\n    84  E2809E ;\
+          \ # double low-9 quotation mark\\r\\n    85  E280A6 ; # ellipsis\\r\\n \
+          \   86  E280A0 ; # dagger\\r\\n    87  E280A1 ; # double dagger\\r\\n  \
+          \  88  E282AC ; # euro\\r\\n    89  E280B0 ; # per mille\\r\\n\\r\\n   \
+          \ 91  E28098 ; # left single quotation mark\\r\\n    92  E28099 ; # right\
+          \ single quotation mark\\r\\n    93  E2809C ; # left double quotation mark\\\
+          r\\n    94  E2809D ; # right double quotation mark\\r\\n    95  E280A2 ;\
+          \ # bullet\\r\\n    96  E28093 ; # en dash\\r\\n    97  E28094 ; # em dash\\\
+          r\\n\\r\\n    99  E284A2 ; # trade mark sign\\r\\n\\r\\n    A0  C2A0 ; \
+          \  # &nbsp;\\r\\n    A1  D18E ;   # capital Byelorussian short U\\r\\n \
+          \   A2  D19E ;   # small Byelorussian short u\\r\\n\\r\\n    A4  C2A4 ;\
+          \   # currency sign\\r\\n    A5  D290 ;   # capital Ukrainian soft G\\r\\\
+          n    A6  C2A6 ;   # borken bar\\r\\n    A7  C2A7 ;   # section sign\\r\\\
+          n    A8  D081 ;   # capital YO\\r\\n    A9  C2A9 ;   # (C)\\r\\n    AA \
+          \ D084 ;   # capital Ukrainian YE\\r\\n    AB  C2AB ;   # left-pointing\
+          \ double angle quotation mark\\r\\n    AC  C2AC ;   # not sign\\r\\n   \
+          \ AD  C2AD ;   # soft hypen\\r\\n    AE  C2AE ;   # (R)\\r\\n    AF  D087\
+          \ ;   # capital Ukrainian YI\\r\\n\\r\\n    B0  C2B0 ;   # &deg;\\r\\n \
+          \   B1  C2B1 ;   # plus-minus sign\\r\\n    B2  D086 ;   # capital Ukrainian\
+          \ I\\r\\n    B3  D196 ;   # small Ukrainian i\\r\\n    B4  D291 ;   # small\
+          \ Ukrainian soft g\\r\\n    B5  C2B5 ;   # micro sign\\r\\n    B6  C2B6\
+          \ ;   # pilcrow sign\\r\\n    B7  C2B7 ;   # &middot;\\r\\n    B8  D191\
+          \ ;   # small yo\\r\\n    B9  E28496 ; # numero sign\\r\\n    BA  D194 ;\
+          \   # small Ukrainian ye\\r\\n    BB  C2BB ;   # right-pointing double angle\
+          \ quotation mark\\r\\n\\r\\n    BF  D197 ;   # small Ukrainian yi\\r\\n\\\
+          r\\n    C0  D090 ;   # capital A\\r\\n    C1  D091 ;   # capital B\\r\\\
+          n    C2  D092 ;   # capital V\\r\\n    C3  D093 ;   # capital G\\r\\n  \
+          \  C4  D094 ;   # capital D\\r\\n    C5  D095 ;   # capital YE\\r\\n   \
+          \ C6  D096 ;   # capital ZH\\r\\n    C7  D097 ;   # capital Z\\r\\n    C8\
+          \  D098 ;   # capital I\\r\\n    C9  D099 ;   # capital J\\r\\n    CA  D09A\
+          \ ;   # capital K\\r\\n    CB  D09B ;   # capital L\\r\\n    CC  D09C ;\
+          \   # capital M\\r\\n    CD  D09D ;   # capital N\\r\\n    CE  D09E ;  \
+          \ # capital O\\r\\n    CF  D09F ;   # capital P\\r\\n\\r\\n    D0  D0A0\
+          \ ;   # capital R\\r\\n    D1  D0A1 ;   # capital S\\r\\n    D2  D0A2 ;\
+          \   # capital T\\r\\n    D3  D0A3 ;   # capital U\\r\\n    D4  D0A4 ;  \
+          \ # capital F\\r\\n    D5  D0A5 ;   # capital KH\\r\\n    D6  D0A6 ;   #\
+          \ capital TS\\r\\n    D7  D0A7 ;   # capital CH\\r\\n    D8  D0A8 ;   #\
+          \ capital SH\\r\\n    D9  D0A9 ;   # capital SHCH\\r\\n    DA  D0AA ;  \
+          \ # capital hard sign\\r\\n    DB  D0AB ;   # capital Y\\r\\n    DC  D0AC\
+          \ ;   # capital soft sign\\r\\n    DD  D0AD ;   # capital E\\r\\n    DE\
+          \  D0AE ;   # capital YU\\r\\n    DF  D0AF ;   # capital YA\\r\\n\\r\\n\
+          \    E0  D0B0 ;   # small a\\r\\n    E1  D0B1 ;   # small b\\r\\n    E2\
+          \  D0B2 ;   # small v\\r\\n    E3  D0B3 ;   # small g\\r\\n    E4  D0B4\
+          \ ;   # small d\\r\\n    E5  D0B5 ;   # small ye\\r\\n    E6  D0B6 ;   #\
+          \ small zh\\r\\n    E7  D0B7 ;   # small z\\r\\n    E8  D0B8 ;   # small\
+          \ i\\r\\n    E9  D0B9 ;   # small j\\r\\n    EA  D0BA ;   # small k\\r\\\
+          n    EB  D0BB ;   # small l\\r\\n    EC  D0BC ;   # small m\\r\\n    ED\
+          \  D0BD ;   # small n\\r\\n    EE  D0BE ;   # small o\\r\\n    EF  D0BF\
+          \ ;   # small p\\r\\n\\r\\n    F0  D180 ;   # small r\\r\\n    F1  D181\
+          \ ;   # small s\\r\\n    F2  D182 ;   # small t\\r\\n    F3  D183 ;   #\
+          \ small u\\r\\n    F4  D184 ;   # small f\\r\\n    F5  D185 ;   # small\
+          \ kh\\r\\n    F6  D186 ;   # small ts\\r\\n    F7  D187 ;   # small ch\\\
+          r\\n    F8  D188 ;   # small sh\\r\\n    F9  D189 ;   # small shch\\r\\\
+          n    FA  D18A ;   # small hard sign\\r\\n    FB  D18B ;   # small y\\r\\\
+          n    FC  D18C ;   # small soft sign\\r\\n    FD  D18D ;   # small e\\r\\\
+          n    FE  D18E ;   # small yu\\r\\n    FF  D18F ;   # small ya\\r\\n}\"\n\
+          kind: ConfigMap\nmetadata:\n  creationTimestamp: '2020-03-18T14:47:10Z'\n\
+          \  name: nginx-conf\n  namespace: project1\n  resourceVersion: '177918503'\n\
+          \  selfLink: /api/v1/namespaces/project1/configmaps/nginx-conf\n  uid: "
+        id: "nginx-conf"
+        name: "nginx-conf"
+        providerId: "org.jenkinsci.plugins.configfiles.custom.CustomConfig"
+    - npm:
+        content: |-
+          registry=http://nexus.bancogalicia.com.ar/repository/npm-group/
+          _auth=dWRldm8wMW06VDJuVUpPYWY3bQ==
+          email=typ-devops@bancogalicia.com
+          always-auth=true
+          phantomjs_cdnurl=http://nexus.bancogalicia.com.ar/repository/assets-private/phantomjs-2.11
+          sass_binary_site=http://nexus.bancogalicia.com.ar/repository/raw-private/node-sass/
+        id: "npmrc"
+        name: "Npmrc.Config"
+        providerId: "jenkins.plugins.nodejs.configfiles.NPMConfig"
+    - json:
+        content: "{ \n  \"component\": \"[COMPONENT_ID]\", \n  \"properties\": { \n\
+          \t\t \"version\": \"[VERSION_ID]\" \n\t\t} \n}"
+        id: "version.json"
+        name: "version.json"
+        providerId: "org.jenkinsci.plugins.configfiles.json.JsonConfig"
+##### fin Config File Management ##### 
+
+########nexus no descomentar ########
+#  globalNexusConfiguration:
+#    instanceId: "9e72ae12cf08490bbcca267461b11c48"
+########Openshift
+  globalPluginConfiguration:
+    buildConfigListInterval: 5
+    buildListInterval: 5
+    configMapListInterval: 5
+    credentialsId: "sa-devops-cross-token-stg"
+    enabled: true
+    foldersEnabled: true
+    imageStreamListInterval: 5
+###    namespace: "almt-test-dev"
+    namespace: "actm-autocontrolm-qas adpc-admpreycomision-qas almc-integrations-qas apdk-appdkuextension-qas apdm-appdmachine-qas aple-apislending-qas arqa-arquitectura-qas arqv-msarqventas-qas auth-authcanales-qas bfft-tasi-qas cdsa-solanaliticas-qas cnet-crossnetcore-qas crnj-crossnodejs-qas ctqs-teraapirestnet-qas devo-devops-qas dwos-dataanalytics-qas eqrm-echeq-qas gara-portalgarantias-qas gdms-gddigital-qas gres-grecosystem-qas ierm-sie-qas incc-comcustodia-qas inml-orquestadordocs-qas inpq-infopaquetes-qas isop-antecedentes-qas jaut-autenticacion-qas limk-marketplace-qas lsgo-sitioleasing-qas mobi-galiciamobile-qas nbrm-nuevobalance-qas nvsm-sincpersonas-qas obad-tarjetasonb-qas obaf-perfil-qas obag-inversiones-qas obah-transferencias-qas obal-financioonba-qas"
+    secretListInterval: 5
+    server: "https://ocp-stg.bancogalicia.com.ar"
+######## FinOpenshift
+######## Maven
+  mavenModuleSet:
+    localRepository: "default"
+######## Fin maven
+######## sonar
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: false
+    installations:
+    - credentialsId: "sonar"
+      name: "sonar"
+      serverUrl: "http://10.0.47.30:9000"
+      triggers:
+        skipScmCause: false
+        skipUpstreamCause: false
+######## fin sonar
+######## statistics-gatherer
+  statisticsConfiguration:
+    buildInfo: true
+    buildStepInfo: false
+    buildUrl: "https://deploy-tracking-almc-integrations-prd.prdcloud.bancogalicia.com.ar/"
+    projectInfo: false
+    queueInfo: false
+    scmCheckoutInfo: false
+    shouldPublishToAwsSnsQueue: false
+    shouldSendApiHttpRequests: true
+    shouldSendToLogback: false
+  usageStatisticsCloudBees:
+    usageStatisticsCollected: true
+######## fin statistics-gatherer
+######## tool 
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+######## Maven
+  maven:
+    installations:
+    - home: "/app/apache-maven-3.3.9/"
+      name: "maven_3_3_9"
+    - home: "/app/apache-maven-3.5.0/"
+      name: "maven_3_5_0"
+    - home: "/app/apache-maven-3.6.3/"
+      name: "maven_3_6_3"
+######## Fin Maven
+######## sonar
+  msBuildSQRunnerInstallation:
+    installations:
+    - home: "/app/sonar-scanner-msbuild-4.8.0.12008-netcoreapp2.0/"
+      name: "sonarms"
+    - home: "/app/sonar-scanner-msbuild-4.8.0.12008-netcoreapp3.0/"
+      name: "sonarms3"
+    - home: "/app/sonar-scanner-msbuild-4.8.0.12008-net46/"
+      name: "sonarmswin"
+######## Fin sonar
+######## nodejs
+  nodejs:
+    installations:
+    - home: "/app/node-v14.16.1-linux-x64/"
+      name: "node14"
+    - home: "/app/node-v10.19.0-linux-x64/"
+      name: "node10"
+    - home: "/app/node-v8.11.4-linux-x64/"
+      name: "node8"
+######## fin nodejs
+######## Maven
+  pipelineMaven:
+    triggerDownstreamUponResultAborted: false
+    triggerDownstreamUponResultFailure: false
+    triggerDownstreamUponResultNotBuilt: false
+    triggerDownstreamUponResultSuccess: true
+    triggerDownstreamUponResultUnstable: false
+######## Fin Maven
+######## sonar
+  sonarRunnerInstallation:
+    installations:
+    - home: "/app/sonar-scanner-4.2.0.1873-linux/"
+      name: "sonar"
+######## Fin sonar
+######## fin tool 

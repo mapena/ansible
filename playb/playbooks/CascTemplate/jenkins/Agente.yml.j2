@@ -1,0 +1,17 @@
+### agrente {{ items_labelAtoms }}
+  - permanent:
+      labelString: "devsecops"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "jenkins-agent"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "{{ items_labelAtoms }}"
+      mode: EXCLUSIVE
+      name: "{{ items_labelAtoms }}"
+      numExecutors: 6
+      remoteFS: "/app/jenkins/agent-prd-master01"
+      retentionStrategy: "always"
+### fin agente idseopclb01

@@ -1,0 +1,16 @@
+
+---
+- hosts: server2
+  gather_facts: no
+  become: true
+  become_method: su
+  vars:
+    var1: Contenido-Variable-var1
+    nodos: ['nodo1','nodo2']
+  tasks:
+    - debug: msg='var1 {{ var1 }}'
+
+    - name: armado de template
+      template:
+        src: texto1.txt.j2
+        dest: /tmp/texto1.txt
